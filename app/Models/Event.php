@@ -14,13 +14,10 @@ class Event extends Model
         'description',
         'location',
         'ticket_price',
+        'date_time',
         // 'sponsors',
         // 'speakers',
         // 'partners',
-    ];
-
-    protected $dates = [
-      'date_time',
     ];
 
 //    public function speakers()

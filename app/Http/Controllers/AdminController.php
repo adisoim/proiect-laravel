@@ -21,19 +21,19 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        // Validează datele de intrare
         $validatedData = $request->validate([
             'title' => 'required|max:255',
+            'description' => 'nullable',
             'location' => 'required',
             'ticket_price' => 'required|numeric',
+            'date_time' => 'required|date',
         ]);
 
-        // Creează un nou eveniment
         Event::create($validatedData);
 
-        // Redirecționează înapoi la lista de evenimente cu un mesaj de succes
-        return redirect()->route('admin.events.index')->with('success', 'Evenimentul a fost adăugat cu succes.');
+        return redirect()->route('admin.dashboard')->with('success', 'Evenimentul a fost creat cu succes.');
     }
+
 
     public function edit(Event $event)
     {
