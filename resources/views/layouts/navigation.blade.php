@@ -97,10 +97,11 @@
             </div>
         </div>
     </div>
+    @auth
+        @if(Auth::user()->hasRole('admin'))
+            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                {{ __('Panou Administrator') }}
+            </x-nav-link>
+        @endif
+    @endauth
 </nav>
-
-@if(Auth::user() && Auth::user()->hasRole('admin'))
-    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
-        {{ __('Panou Administrator') }}
-    </x-nav-link>
-@endif
