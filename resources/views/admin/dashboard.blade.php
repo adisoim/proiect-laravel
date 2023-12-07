@@ -12,26 +12,36 @@
                     <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Evenimente Recente</h3>
                     <div class="mt-6">
                         <!-- Lista evenimentelor -->
-                        @forelse ($events as $event)
-                            <div class="mt-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $event->title }}</div>
-                                    <div class="ml-2 flex-shrink-0 flex">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            {{ $event->location }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                    {{ $event->description }}
-                                </div>
-                                <!-- Alte detalii ale evenimentului -->
-                            </div>
-                        @empty
-                            <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                                Nu există evenimente de afișat.
-                            </div>
-                        @endforelse
+            @forelse ($events as $event)
+                <div class="mt-4">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $event->title }}</div>
+                        <div class="ml-2 flex-shrink-0 flex">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                {{ $event->location }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                        {{ $event->description }}
+                    </div>
+                    <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                        Preț Bilet: {{ $event->ticket_price }}
+                    </div>
+                        <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            Data și Ora: {{ $event->date_time }}
+                        </div>
+                    </div>
+                    <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="mt-2 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700">Șterge</button>
+                    </form>
+                @empty
+                    <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                        Nu există evenimente de afișat.
+                    </div>
+                @endforelse
                     </div>
 
                     <!-- Partea de formular pentru crearea unui nou eveniment -->
