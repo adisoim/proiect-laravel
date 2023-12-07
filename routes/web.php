@@ -30,16 +30,24 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['middleware' => ['auth', 'role:admin']], function() {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
-    Route::get('/events', [AdminEventController::class, 'index'])->name('admin.events.index');
-    Route::get('/events/create', [AdminEventController::class, 'create'])->name('admin.events.create');
-    Route::post('/events', [AdminEventController::class, 'store'])->name('admin.events.store');
-    Route::get('/events/{event}/edit', [AdminEventController::class, 'edit'])->name('admin.events.edit');
-    Route::put('/events/{event}', [AdminEventController::class, 'update'])->name('admin.events.update');
-    Route::delete('/events/{event}', [AdminEventController::class, 'destroy'])->name('admin.events.destroy');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/events', [AdminController::class, 'index'])->name('admin.events.index');
+    Route::get('/events/create', [AdminController::class, 'create'])->name('admin.events.create');
+    Route::post('/events', [AdminController::class, 'store'])->name('admin.events.store');
+    Route::get('/events/{event}/edit', [AdminController::class, 'edit'])->name('admin.events.edit');
+    Route::put('/events/{event}', [AdminController::class, 'update'])->name('admin.events.update');
+    Route::delete('/events/{event}', [AdminController::class, 'destroy'])->name('admin.events.destroy');
 });
+//Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
+//    Route::get('/events', [AdminController::class, 'index'])->name('admin.events.index');
+//    Route::get('/events/create', [AdminController::class, 'create'])->name('admin.events.create');
+//    Route::get('/events/{event}/edit', [AdminController::class, 'edit'])->name('admin.events.edit');
+//    // ... și alte rute necesare
+//});
+
+
 
 require __DIR__.'/auth.php';

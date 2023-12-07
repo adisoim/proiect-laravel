@@ -7,16 +7,15 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function index()
-    {
-        // Exemplu: Preia toate evenimentele pentru a le afișa în dashboard
-        $events = Event::all();
-        return view('admin.dashboard', compact('events'));
-    }
+   public function index()
+   {
+       // Exemplu: Preia toate evenimentele pentru a le afișa în dashboard
+       $events = Event::all();
+       return view('admin.dashboard', compact('events'));
+   }
 
     public function create()
     {
-        // Returnează view-ul pentru crearea unui nou eveniment
         return view('admin.events.create');
     }
 

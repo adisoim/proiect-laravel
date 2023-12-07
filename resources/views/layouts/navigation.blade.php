@@ -15,6 +15,13 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @auth
+                        @if(Auth::user()->hasRole('admin'))
+                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                                {{ __('Panou Administrator') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -97,11 +104,5 @@
             </div>
         </div>
     </div>
-    @auth
-        @if(Auth::user()->hasRole('admin'))
-            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                {{ __('Panou Administrator') }}
-            </x-nav-link>
-        @endif
-    @endauth
+
 </nav>

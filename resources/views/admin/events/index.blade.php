@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
     <div class="container">
         <h1>Evenimente</h1>
         @foreach ($events as $event)
@@ -18,4 +16,4 @@
             </div>
         @endforeach
     </div>
-@endsection
+
