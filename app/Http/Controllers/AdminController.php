@@ -63,6 +63,6 @@ class AdminController extends Controller
         $event->delete();
 
         // Redirecționează înapoi la lista de evenimente cu un mesaj de succes
-        return redirect()->route('admin.events.index')->with('success', 'Evenimentul a fost șters cu succes.');
+        return redirect()->route('admin.dashboard')->with('success', 'Evenimentul a fost șters cu succes.');
     }
 }

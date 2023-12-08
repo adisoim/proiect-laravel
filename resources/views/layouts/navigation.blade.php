@@ -22,6 +22,9 @@
                             </x-nav-link>
                         @endif
                     @endauth
+                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
+                        {{ __('Evenimente') }}
+                    </x-nav-link>
                 </div>
             </div>
 

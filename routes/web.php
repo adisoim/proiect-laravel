@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,5 +39,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
     Route::put('/events/{event}', [AdminController::class, 'update'])->name('admin.events.update');
     Route::delete('/events/{event}', [AdminController::class, 'destroy'])->name('admin.events.destroy');
 });
+
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+
 
 require __DIR__.'/auth.php';
