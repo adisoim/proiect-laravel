@@ -39,5 +39,14 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
+Route::prefix('sponsors')->group(function () {
+    Route::get('/', [SponsorController::class, 'index'])->name('sponsors.index');
+    Route::get('/create', [SponsorController::class, 'create'])->name('sponsors.create');
+    Route::post('/', [SponsorController::class, 'store'])->name('sponsors.store');
+    Route::get('/{sponsor}', [SponsorController::class, 'show'])->name('sponsors.show');
+    Route::get('/{sponsor}/edit', [SponsorController::class, 'edit'])->name('sponsors.edit');
+    Route::put('/{sponsor}', [SponsorController::class, 'update'])->name('sponsors.update');
+    Route::delete('/{sponsor}', [SponsorController::class, 'destroy'])->name('sponsors.destroy');
+});
 
 require __DIR__.'/auth.php';

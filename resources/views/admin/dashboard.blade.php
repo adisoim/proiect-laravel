@@ -15,7 +15,7 @@
             @forelse ($events as $event)
                 <div class="mt-4">
                     <div class="flex items-center justify-between">
-                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $event->title }}</div>
+                        <div class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $event->title }}</div>
                         <div class="ml-2 flex-shrink-0 flex">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                 {{ $event->location }}
@@ -31,6 +31,7 @@
                         <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
                             Data și Ora: {{ $event->date_time }}
                         </div>
+
                     </div>
                     <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST">
                         @csrf

@@ -22,8 +22,20 @@
                             </x-nav-link>
                         @endif
                     @endauth
-                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
-                        {{ __('Evenimente') }}
+                    <x-nav-link x-data="{ open: false }" class="relative" @mouseleave="open = false" :href="route('events.index')" :active="request()->routeIs('events.index')">
+                        <button @mouseover="open = true" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                            <span >Evenimente</span>
+                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown -->
+                        <div x-show="open" x-cloak @mouseover="open = true" class="absolute z-50 mt-2 w-48 bg-white shadow-lg rounded-md py-1">
+                            <a href="{{ route('sponsors.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sponsori</a>
+{{--                            <a href="{{ route('artists.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Artiști</a>--}}
+{{--                            <a href="{{ route('partners.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Parteneri</a>--}}
+                        </div>
                     </x-nav-link>
                 </div>
             </div>
