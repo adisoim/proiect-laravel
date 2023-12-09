@@ -16,4 +16,9 @@ class Speaker extends Model
         'name',
         'description'
     ];
+
+    public function events():\Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Event::class);
+    }
 }

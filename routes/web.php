@@ -58,6 +58,16 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
     Route::get('admin/events/{event}/add-sponsor', [AdminController::class, 'addSponsors'])->name('events.addSponsors');
     Route::post('admin/events/{event}/add-sponsor', [AdminController::class, 'storeSponsors']);
     Route::post('events/{event}/remove-sponsor', [AdminController::class, 'removeSponsor'])->name('events.removeSponsor');
+
+    Route::get('admin/events/{event}/add-speaker', [AdminController::class, 'addSpeakerForm'])->name('admin.events.addSpeakerForm');
+    Route::post('admin/events/{event}/add-speaker', [AdminController::class, 'addSpeaker'])->name('admin.events.addSpeakers');
+    Route::post('admin/events/{event}/store-speakers', [AdminController::class, 'storeSpeakers'])->name('admin.events.storeSpeakers');
+    Route::delete('admin/events/{event}/remove-speaker', [AdminController::class, 'removeSpeaker'])->name('admin.events.removeSpeaker');
+    Route::delete('/speakers/{speaker}', [SpeakerController::class, 'destroy'])->name('speakers.destroy');
+    Route::delete('/events/remove-speaker/{event}', [AdminController::class, 'removeSpeaker'])->name('events.removeSpeaker');
+
+    Route::get('/speakers/create', [SpeakerController::class, 'create'])->name('speakers.create');
+    Route::post('/speakers', [SpeakerController::class, 'store'])->name('speakers.store');
 });
 
 
@@ -67,9 +77,5 @@ Route::get('/agendas/{agenda}', [AgendaController::class, 'show'])->name('agenda
 
 Route::get('/speakers', [SpeakerController::class, 'index'])->name('speakers.index');
 Route::get('/speakers/{speaker}', [SpeakerController::class, 'show'])->name('speakers.show');
-
-// TODO tre sa implementam pag blade pt creare
-Route::get('/speakers/create', [SpeakerController::class, 'create'])->name('speakers.create');
-Route::post('/speakers', [SpeakerController::class, 'store'])->name('speakers.store');
 
 require __DIR__.'/auth.php';

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Event extends Model
 {
@@ -25,10 +26,8 @@ class Event extends Model
         return $this->belongsToMany(Sponsor::class);
     }
 
-
-//    public function speakers()
-//    {
-//        return $this->hasMany(Speaker::class);
-//    }
-
+    public function speakers(): BelongsToMany
+    {
+        return $this->belongsToMany(Speaker::class);
+    }
 }
