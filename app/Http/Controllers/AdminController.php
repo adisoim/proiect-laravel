@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Sponsor;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -11,7 +12,8 @@ class AdminController extends Controller
    {
        // Exemplu: Preia toate evenimentele pentru a le afișa în dashboard
        $events = Event::all();
-       return view('admin.dashboard', compact('events'));
+       $sponsors = Sponsor::all();
+       return view('admin.dashboard', compact('events', 'sponsors'));
    }
 
     public function create()
@@ -64,5 +66,70 @@ class AdminController extends Controller
 
         // Redirecționează înapoi la lista de evenimente cu un mesaj de succes
         return redirect()->route('admin.dashboard')->with('success', 'Evenimentul a fost șters cu succes.');
+    }
+
+public function addSponsorForm(Event $event)
+{
+    // Obține lista de sponsori care pot fi adăugați
+    $sponsors = Sponsor::all();
+    return view('admin.events.addSponsor', compact('event', 'sponsors'));
+}
+
+public function addSponsor(Request $request, Event $event)
+{
+    $validatedData = $request->validate([
+        'sponsor_id' => 'required|exists:sponsors,id', // Verifică dacă sponsorul există în baza de date
+    ]);
+
+    // Adaugă sponsorul la eveniment
+    $sponsor = Sponsor::find($validatedData['sponsor_id']);
+    $event->sponsors()->attach($sponsor);
+
+    return redirect()->route('admin.dashboard')->with('success', 'Sponsorul a fost adăugat cu succes.');
+}
+
+    public function removeSponsor(Request $request, Event $event)
+    {
+        $validatedData = $request->validate([
+            'sponsor_id' => 'required|exists:sponsors,id', // Verifică dacă sponsorul există în baza de date
+        ]);
+
+        // Găsește sponsorul specificat
+        $sponsor = Sponsor::find($validatedData['sponsor_id']);
+
+        // Verifică dacă sponsorul este asociat cu evenimentul
+        if ($event->sponsors()->find($sponsor->id)) {
+            // Elimină asocierea dintre eveniment și sponsor
+            $event->sponsors()->detach($sponsor);
+            return redirect()->route('admin.dashboard')->with('success', 'Sponsorul a fost șters cu succes.');
+        }
+
+        // În cazul în care sponsorul nu este asociat cu evenimentul
+        return redirect()->route('admin.dashboard')->with('error', 'Sponsorul nu este asociat cu acest eveniment.');
+    }
+
+    public function storeSponsors(Request $request, $eventId)
+    {
+        // Găsește evenimentul folosind ID-ul primit
+        $event = Event::findOrFail($eventId);
+
+        // Validare
+        $validatedData = $request->validate([
+            'sponsor_id' => 'required|exists:sponsors,id', // Asigură-te că sponsorul există
+        ]);
+
+        // Adaugă sponsorul la eveniment
+        $event->sponsors()->attach($validatedData['sponsor_id']);
+
+        // Redirecționează înapoi cu un mesaj de succes
+        return back()->with('success', 'Sponsorul a fost adăugat cu succes la eveniment.');
+    }
+
+    public function destroySponsor($sponsorId)
+    {
+        $sponsor = Sponsor::findOrFail($sponsorId);
+        $sponsor->delete();
+
+        return back()->with('success', 'Sponsorul a fost șters cu succes.');
     }
 }

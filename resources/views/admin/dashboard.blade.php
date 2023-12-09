@@ -31,8 +31,31 @@
                         <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
                             Data și Ora: {{ $event->date_time }}
                         </div>
-
+                    <div class="mt-4 flex justify-start space-x-2">
+                        <form action="{{ route('events.addSponsors', $event) }}" method="POST">
+                            @csrf
+                            <select name="sponsor_id" style="width:150px" class="border border-gray-300 rounded-md shadow-sm p-2">
+                                @foreach ($sponsors as $sponsor)
+                                    <option value="{{ $sponsor->id }}">{{ $sponsor->name }}</option>
+                                @endforeach
+                            </select>
+                            <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700">Adaugă Sponsor</button>
+                        </form>
+                        @if(!$event->sponsors->isEmpty())
+                        <form action="{{ route('events.removeSponsor', $event) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <select name="sponsor_id" style="width:150px" class="border border-gray-300 rounded-md shadow-sm p-2">
+                                @foreach ($event->sponsors as $sponsor)
+                                    <option value="{{ $sponsor->id }}">{{ $sponsor->name }}</option>
+                                @endforeach
+                            </select>
+                            <button type="submit" style="width: 150px" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700">Șterge Sponsor</button>
+                        </form>
+                    @endif
                     </div>
+
+                </div>
                     <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
@@ -44,11 +67,31 @@
                     </div>
                 @endforelse
                     </div>
+                    <h3 class="mt-4 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Management Sponsori</h3>
+                    <button style="width: 300px" class="mt-4 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded hover:bg-green-700">
+                        <a href="{{ route('sponsors.create') }}"  class="btn btn-link">Creeaza Sponsori</a>
+                    </button>
+
+                    <div class="mt-4">
+                        @if($sponsors->count())
+                            @foreach ($sponsors as $sponsor)
+                                <form method="POST" action="{{ route('sponsors.destroy', ['sponsor' => $sponsor->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700">Șterge Sponsor {{ $sponsor->name }}</button>
+                                </form>
+                            @endforeach
+                        @else
+                            <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                                Nu există sponsori de afișat.
+                            </div>
+                        @endif
+                    </div>
 
                     <!-- Partea de formular pentru crearea unui nou eveniment -->
 
                     <div class="mt-8">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Crează un Eveniment Nou</h3>
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Creează un Eveniment Nou</h3>
                         <form action="{{ route('admin.events.store') }}" method="POST" class="mt-6">
                             @csrf <!-- Token CSRF pentru securitate -->
                             <div class="grid grid-cols-1 gap-6">

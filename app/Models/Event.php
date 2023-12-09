@@ -20,6 +20,12 @@ class Event extends Model
         // 'partners',
     ];
 
+    public function sponsors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Sponsor::class);
+    }
+
+
 //    public function speakers()
 //    {
 //        return $this->hasMany(Speaker::class);

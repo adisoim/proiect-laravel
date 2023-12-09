@@ -14,12 +14,12 @@ class AgendaController extends Controller
     }
     public function index()
     {
-        $agenda = Agenda::all();
-        return view('agendas.index', compact('agenda'));
+        $agendas = Agenda::all();
+        return view('agendas.index', compact('agendas'));
     }
-    public function show(Agenda $agenda)
+    public function show(Agenda $agendas)
     {
-        return view('agendas.show', compact('agenda'));
+        return view('agendas.show', compact('agendas'));
     }
     public function create()
     {

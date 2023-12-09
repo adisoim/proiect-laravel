@@ -22,7 +22,7 @@ class Sponsor extends Model
     ];
 
     // dacă un sponsor poate avea mai multe evenimente
-    public function events()
+    public function events(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Event::class);
     }

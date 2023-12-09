@@ -14,9 +14,11 @@ class SponsorController extends Controller
 
     public function index()
     {
-        $sponsors = Sponsor::all();
+        $sponsors = Sponsor::with('events')->get();
         return view('sponsors.index', compact('sponsors'));
+        return view('admin.sponsors.index', compact('sponsors'));
     }
+
 
     public function create()
     {
@@ -25,16 +27,24 @@ class SponsorController extends Controller
 
     public function store(Request $request)
     {
+        // Validarea datelor de intrare
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'nullable',
-            // Alte câmpuri necesare pentru sponsor
+            'website' => 'nullable|url'
         ]);
 
-        Sponsor::create($validatedData);
+        // Crearea unui sponsor nou
+        $sponsor = new Sponsor();
+        $sponsor->name = $validatedData['name'];
+        $sponsor->description = $validatedData['description'] ?? null;
+        $sponsor->website = $validatedData['website'] ?? null;
+        $sponsor->save();
 
+        // Redirecționarea către o pagină dorită după salvare
         return redirect()->route('sponsors.index')->with('success', 'Sponsorul a fost creat cu succes.');
     }
+
 
     public function show(Sponsor $sponsor)
     {

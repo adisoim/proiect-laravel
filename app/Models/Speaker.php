@@ -9,6 +9,9 @@ class Speaker extends Model
 {
     use HasFactory;
 
+    protected $table = 'speaker';
+
+
     protected $fillable=[
         'name',
         'description'

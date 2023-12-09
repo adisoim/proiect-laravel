@@ -17,7 +17,7 @@ class EventController extends Controller
     // Afișarea listei de evenimente
     public function index()
     {
-        $events = Event::all(); // Obținerea tuturor evenimentelor din baza de date
+        $events = Event::with('sponsors')->get(); // Obținerea tuturor evenimentelor din baza de date
         return view('events.index', compact('events')); // Trimiterea evenimentelor la view
     }
 
@@ -81,5 +81,11 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->route('events.index')->with('success', 'Evenimentul a fost șters cu succes.');
+    }
+
+    public function addSponsor(Request $request, Event $event)
+    {
+        $event->sponsors()->attach($request->sponsor_id);
+        return back()->with('success', 'Sponsor adăugat la eveniment.');
     }
 }
