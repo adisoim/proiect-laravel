@@ -67,7 +67,7 @@
                     </div>
                 @endforelse
                     </div>
-
+                    <h3 class="mt-4 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Management Sponsori</h3>
                     <button style="width: 300px" class="mt-4 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded hover:bg-green-700">
                         <a href="{{ route('sponsors.create') }}"  class="btn btn-link">Creeaza Sponsori</a>
                     </button>
