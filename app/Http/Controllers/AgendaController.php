@@ -7,14 +7,19 @@ use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $agenda = Agenda::all();
-        return view('agenda.index', compact('agenda'));
+        return view('agendas.index', compact('agenda'));
     }
     public function show(Agenda $agenda)
     {
-        return view('agenda.show', compact('agenda'));
+        return view('agendas.show', compact('agenda'));
     }
     public function create()
     {
