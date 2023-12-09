@@ -46,6 +46,7 @@
                     </div>
 
                     <!-- Partea de formular pentru crearea unui nou eveniment -->
+
                     <div class="mt-8">
                         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Crează un Eveniment Nou</h3>
                         <form action="{{ route('admin.events.store') }}" method="POST" class="mt-6">

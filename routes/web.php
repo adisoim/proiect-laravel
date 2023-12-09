@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
