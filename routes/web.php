@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,5 +61,15 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
 });
 
 
+
+Route::get('/agendas', [AgendaController::class, 'index'])->name('agendas.index');
+Route::get('/agendas/{agenda}', [AgendaController::class, 'show'])->name('agendas.show');
+
+Route::get('/speakers', [SpeakerController::class, 'index'])->name('speakers.index');
+Route::get('/speakers/{speaker}', [SpeakerController::class, 'show'])->name('speakers.show');
+
+// TODO tre sa implementam pag blade pt creare
+Route::get('/speakers/create', [SpeakerController::class, 'create'])->name('speakers.create');
+Route::post('/speakers', [SpeakerController::class, 'store'])->name('speakers.store');
 
 require __DIR__.'/auth.php';
