@@ -31,27 +31,33 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Rute pentru evenimente
+Route::resource('events', EventController::class)->only(['index', 'show']);
+
+// Rute pentru sponsori
+Route::resource('sponsors', SponsorController::class);
+Route::resource('sponsors', SponsorController::class)->middleware('auth', 'role:admin');
+Route::post('/sponsors', [SponsorController::class, 'store'])->name('sponsors.store');
+Route::post('/admin/events/{eventId}/sponsors', [AdminController::class, 'storeSponsors'])->name('admin.events.storeSponsors');
+Route::delete('/events/{event}/remove-sponsor', [AdminController::class, 'removeSponsor'])->name('events.removeSponsor');
+Route::delete('/sponsors/{sponsor}', [AdminController::class, 'destroySponsor'])->name('sponsors.destroy');
+
+// Rute pentru admin
 Route::group(['middleware' => ['auth', 'role:admin']], function() {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/events', [AdminController::class, 'index'])->name('admin.events.index');
-    Route::get('/events/create', [AdminController::class, 'create'])->name('admin.events.create');
-    Route::post('/events', [AdminController::class, 'store'])->name('admin.events.store');
-    Route::get('/events/{event}/edit', [AdminController::class, 'edit'])->name('admin.events.edit');
-    Route::put('/events/{event}', [AdminController::class, 'update'])->name('admin.events.update');
-    Route::delete('/events/{event}', [AdminController::class, 'destroy'])->name('admin.events.destroy');
+    Route::get('admin/events', [AdminController::class, 'index'])->name('admin.events.index');
+    Route::get('admin/events/create', [AdminController::class, 'create'])->name('admin.events.create');
+    Route::post('admin/events', [AdminController::class, 'store'])->name('admin.events.store');
+    Route::get('admin/events/{event}/edit', [AdminController::class, 'edit'])->name('admin.events.edit');
+    Route::put('admin/events/{event}', [AdminController::class, 'update'])->name('admin.events.update');
+    Route::delete('admin/events/{event}', [AdminController::class, 'destroy'])->name('admin.events.destroy');
+
+    // Ruta pentru adăugarea sponsori la un eveniment
+    Route::get('admin/events/{event}/add-sponsor', [AdminController::class, 'addSponsors'])->name('events.addSponsors');
+    Route::post('admin/events/{event}/add-sponsor', [AdminController::class, 'storeSponsors']);
+    Route::post('events/{event}/remove-sponsor', [AdminController::class, 'removeSponsor'])->name('events.removeSponsor');
 });
 
-Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
-Route::prefix('sponsors')->group(function () {
-    Route::get('/', [SponsorController::class, 'index'])->name('sponsors.index');
-    Route::get('/create', [SponsorController::class, 'create'])->name('sponsors.create');
-    Route::post('/', [SponsorController::class, 'store'])->name('sponsors.store');
-    Route::get('/{sponsor}', [SponsorController::class, 'show'])->name('sponsors.show');
-    Route::get('/{sponsor}/edit', [SponsorController::class, 'edit'])->name('sponsors.edit');
-    Route::put('/{sponsor}', [SponsorController::class, 'update'])->name('sponsors.update');
-    Route::delete('/{sponsor}', [SponsorController::class, 'destroy'])->name('sponsors.destroy');
-});
 
 require __DIR__.'/auth.php';

@@ -7,8 +7,17 @@
                     <div class="p-4">
                         <h2 class="text-lg font-semibold">{{ $sponsor->name }}</h2>
                         <p>{{ $sponsor->description }}</p>
-                        <p>{{ $sponsor->website }}</p>
-                        <!-- Alte detalii ale sponsorului -->
+                        <p>Website: <a href="{{ $sponsor->website }}" class="text-blue-600 hover:text-blue-800">{{ $sponsor->website }}</a></p>
+                        <div>
+                            <strong>Evenimente asociate:</strong>
+                            <ul>
+                                @forelse ($sponsor->events as $event)
+                                    <li>{{ $event->title }}</li>
+                                @empty
+                                    <li>Nu sunt evenimente asociate.</li>
+                                @endforelse
+                            </ul>
+                        </div>
                     </div>
                 </div>
             @empty

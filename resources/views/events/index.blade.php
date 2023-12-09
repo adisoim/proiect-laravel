@@ -11,6 +11,14 @@
                     <div class="mt-2">
                         <span class="text-gray-800 font-semibold">Preț Bilet:</span> {{ $event->ticket_price }}
                     </div>
+                    <div class="mt-2">
+                        <h3 class="text-gray-800 font-semibold">Sponsori:</h3>
+                        @forelse ($event->sponsors as $sponsor)
+                            <p>{{ $sponsor->name }}</p> <!-- Presupunând că sponsorii au un atribut 'name' -->
+                        @empty
+                            <p>Nu există sponsori pentru acest eveniment.</p>
+                        @endforelse
+                    </div>
                     <!-- Butonul Buy - Acesta poate deschide un modal sau o altă pagină pentru achiziție -->
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
                         Cumpără Bilet
