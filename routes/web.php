@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
     Route::delete('admin/events/{event}/remove-partner/{partner}', [AdminController::class, 'removePartner'])->name('admin.events.removePartner');
     Route::delete('/partners/{partner}', [PartnerController::class, 'destroy'])->name('partners.destroy');
     Route::delete('/events/remove-partner/{event}', [AdminController::class, 'removePartner'])->name('events.removePartner');
+    Route::delete('/destroy-partner/{partnerId}', 'NumeController@destroyPartner')->name('destroy.partner');
 });
 
 

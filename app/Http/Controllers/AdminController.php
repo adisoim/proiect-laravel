@@ -201,4 +201,68 @@ class AdminController extends Controller
 
         return back()->with('success', 'Partnerul a fost șters cu succes.');
     }
+    public function addSpeakerForm(Event $event)
+    {
+        // Obține lista de speakeri care pot fi adăugați
+        $speakers = Speaker::all();
+        return view('admin.events.addSpeakers', compact('event', 'speakers'));
+    }
+
+    public function addSpeaker(Request $request, Event $event)
+    {
+        $validatedData = $request->validate([
+            'speaker_id' => 'required|exists:speaker,id', // Verifică dacă speakerul există în baza de date
+        ]);
+
+        // Adaugă speakerul la eveniment
+        $speaker = Speaker::find($validatedData['speaker_id']);
+        $event->speakers()->attach($speaker);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Speaker-ul a fost adăugat cu succes.');
+    }
+
+    public function removeSpeaker(Request $request, Event $event)
+    {
+        $validatedData = $request->validate([
+            'speaker_id' => 'required|exists:speaker,id', // Verifică dacă speakerul există în baza de date
+        ]);
+
+        // Găsește speakerul specificat
+        $speaker = Speaker::find($validatedData['speaker_id']);
+
+        // Verifică dacă speakerul este asociat cu evenimentul
+        if ($event->speakers()->find($speaker->id)) {
+            // Elimină asocierea dintre eveniment și speaker
+            $event->speakers()->detach($speaker);
+            return redirect()->route('admin.dashboard')->with('success', 'Speaker-ul a fost șters cu succes.');
+        }
+
+        // În cazul în care speakerul nu este asociat cu evenimentul
+        return redirect()->route('admin.dashboard')->with('error', 'Speaker-ul nu este asociat cu acest eveniment.');
+    }
+
+    public function storeSpeaker(Request $request, $speakerId)
+    {
+        // Găsește evenimentul folosind ID-ul primit
+        $event = Event::findOrFail($speakerId);
+
+        // Validare
+        $validatedData = $request->validate([
+            'speaker_id' => 'required|exists:speaker,id', // Asigură-te că speakerul există
+        ]);
+
+        // Adaugă speakerul la eveniment
+        $event->speakers()->attach($validatedData['speaker_id']);
+
+        // Redirecționează înapoi cu un mesaj de succes
+        return back()->with('success', 'Speaker-ul a fost adăugat cu succes la eveniment.');
+    }
+
+    public function destroySpeaker($speakerId)
+    {
+        $speaker = Partner::findOrFail($speakerId);
+        $speaker->delete();
+
+        return back()->with('success', 'Speaker-ul a fost șters cu succes.');
+    }
 }

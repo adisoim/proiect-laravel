@@ -97,6 +97,38 @@
                                     @endif
                                 </div>
 
+                                <div class="mt-4 flex justify-start space-x-2">
+                                    <form action="{{ route('admin.events.addPartnerForm', $event) }}" method="POST">
+                                        @csrf
+                                        <select name="partner_id" style="width:150px"
+                                                class="border border-gray-300 rounded-md shadow-sm p-2">
+                                            @foreach ($partners as $partner)
+                                                <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit"
+                                                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700">
+                                            Adaugă Partener
+                                        </button>
+                                    </form>
+                                    @if($event->partners && !$event->partners->isEmpty())
+                                        <form action="{{ route('events.removePartner', $event) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <select name="partner_id" style="width:150px"
+                                                    class="border border-gray-300 rounded-md shadow-sm p-2">
+                                                @foreach ($event->partners as $partner)
+                                                    <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" style="width: 150px"
+                                                    class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700">
+                                                Șterge Partener
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+
                             </div>
                             <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST">
                                 @csrf
@@ -179,10 +211,12 @@
                     <div class="mt-4">
                         @if($partners->count())
                             @foreach ($partners as $partner)
-                                <form method="POST" action="{{ route('partners.destroy', ['partner' => $partner->id]) }}">
+                                <form method="POST"
+                                      action="{{ route('partners.destroy', ['partner' => $partner->id]) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700">
+                                    <button type="submit"
+                                            class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700">
                                         Șterge Partener {{ $partner->name }}
                                     </button>
                                 </form>
