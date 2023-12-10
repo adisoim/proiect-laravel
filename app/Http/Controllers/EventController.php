@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -27,10 +28,6 @@ class EventController extends Controller
         return view('events.show', compact('event')); // Trimiterea evenimentului individual la view
     }
 
-    // Restul metodelor pentru CRUD, dacă sunt necesare
-    // Dacă nu ai nevoie de crearea, editarea sau ștergerea evenimentelor din frontend,
-    // aceste metode nu sunt necesare.
-
     // Crearea unui eveniment nou (pagina de formular)
     public function create()
     {
@@ -44,14 +41,23 @@ class EventController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
             'location' => 'required',
-            'ticket_price' => 'required|numeric',
+            'ticket_price' => 'required|numeric', // Asigură-te că ai un câmp pentru prețul biletului
             'date_time' => 'required|date',
         ]);
 
-        Event::create($validatedData);
+        $event = Event::create($validatedData);
 
-        return redirect()->route('events.index')->with('success', 'Evenimentul a fost creat cu succes.');
+        // Crează un bilet asociat cu evenimentul
+        $ticket = new Ticket([
+            'price' => $validatedData['ticket_price'],
+            // Alte atribute necesare pentru bilet, dacă există
+        ]);
+
+        $event->ticket()->save($ticket);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Evenimentul și biletul au fost create cu succes.');
     }
+
 
     // Editarea unui eveniment existent (pagina de formular)
     public function edit(Event $event)

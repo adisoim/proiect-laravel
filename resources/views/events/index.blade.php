@@ -19,12 +19,18 @@
                             <p>Nu există sponsori pentru acest eveniment.</p>
                         @endforelse
                     </div>
-                    <!-- Butonul Buy - Acesta poate deschide un modal sau o altă pagină pentru achiziție -->
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                        Cumpără Bilet
-                    </button>
-                    <a href="{{ url('/events/' . $event->id) }}" class="text-indigo-600 hover:text-indigo-900 transition duration-300 py-2 px-4 ">Detalii eveniment</a>
+                    <a href="{{ url('/events/' . $event->id) }}"  class=" text-indigo-600 hover:text-indigo-900 transition duration-300 ">Detalii eveniment</a>
+
+                    <form action="{{ route('cart.add', $event->id) }}" method="POST">
+                        @csrf
+{{--                        <input type="hidden" name="ticket_id" value="{{ $event->ticket->id ?? '' }}">--}}
+                        <input type="hidden" name="quantity" value="1"> <!-- sau un input pentru a selecta cantitatea -->
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                            Cumpără Bilet
+                        </button>
+                    </form>
                 </div>
+
             </div>
         @endforeach
     </div>

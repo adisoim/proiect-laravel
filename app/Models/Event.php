@@ -35,4 +35,10 @@ class Event extends Model
     {
         return $this->belongsToMany(Partner::class);
     }
+
+    public function ticket()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
 }

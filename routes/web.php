@@ -7,6 +7,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -89,7 +90,13 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
     Route::delete('/destroy-partner/{partnerId}', 'NumeController@destroyPartner')->name('destroy.partner');
 });
 
-
+// Rute pentru coșul de cumpărături
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/add/{eventId}', [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/update/{item}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{item}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
 Route::get('/agendas', [AgendaController::class, 'index'])->name('agendas.index');
 Route::get('/agendas/{agenda}', [AgendaController::class, 'show'])->name('agendas.show');
