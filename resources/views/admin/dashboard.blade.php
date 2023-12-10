@@ -167,6 +167,33 @@
                         @endif
                     </div>
 
+                    <!--MANAGEMENT PARTENERI-->
+
+                    <h3 class="mt-4 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Management
+                        Parteneri</h3>
+                    <button style="width: 300px"
+                            class="mt-4 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded hover:bg-green-700">
+                        <a href="{{ route('partners.create') }}" class="btn btn-link">Creeaza Parteneri</a>
+                    </button>
+
+                    <div class="mt-4">
+                        @if($partners->count())
+                            @foreach ($partners as $partner)
+                                <form method="POST" action="{{ route('partners.destroy', ['partner' => $partner->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700">
+                                        Șterge Partener {{ $partner->name }}
+                                    </button>
+                                </form>
+                            @endforeach
+                        @else
+                            <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                                Nu există parteneri de afișat.
+                            </div>
+                        @endif
+                    </div>
+
                     <!-- Partea de formular pentru crearea unui nou eveniment -->
 
                     <div class="mt-8">

@@ -30,4 +30,9 @@ class Event extends Model
     {
         return $this->belongsToMany(Speaker::class);
     }
+
+    public function partners():BelongsToMany
+    {
+        return $this->belongsToMany(Partner::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Partner;
 use App\Models\Speaker;
 use App\Models\Sponsor;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class AdminController extends Controller
         $events = Event::all();
         $sponsors = Sponsor::all();
         $speakers = Speaker::all();
-        return view('admin.dashboard', compact('events', 'sponsors', 'speakers'));
+        $partners = Partner::all();
+        return view('admin.dashboard', compact('events', 'sponsors', 'speakers', 'partners'));
     }
 
     public function create()
@@ -135,43 +137,68 @@ class AdminController extends Controller
         return back()->with('success', 'Sponsorul a fost șters cu succes.');
     }
 
-    public function addSpeakerForm(Event $event)
+    public function addPartnerForm(Event $event)
     {
-        // Obține lista de speakeri care pot fi adăugați
-        $speakers = Speaker::all();
-        return view('admin.events.addSpeaker', compact('event', 'speakers'));
+        // Obține lista de parteneri care pot fi adăugați
+        $partners = Partner::all();
+        return view('admin.events.addPartner', compact('event', 'partners'));
     }
 
-    public function addSpeaker(Request $request, Event $event)
+    public function addPartner(Request $request, Event $event)
     {
         $validatedData = $request->validate([
-            'speaker_id' => 'required|exists:speaker,id', // Verifică dacă speakerul există în baza de date
+            'partner_id' => 'required|exists:partner,id', // Verifică dacă partenerul există în baza de date
         ]);
 
-        // Adaugă speakerul la eveniment
-        $speaker = Speaker::find($validatedData['speaker_id']);
-        $event->speakers()->attach($speaker);
+        // Adaugă partenerul la eveniment
+        $partener = Partner::find($validatedData['partner_id']);
+        $event->partners()->attach($partener);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Speakerul a fost adăugat cu succes.');
+        return redirect()->route('admin.dashboard')->with('success', 'Partenerul a fost adăugat cu succes.');
     }
 
-    public function removeSpeaker(Request $request, Event $event)
+    public function removePartner(Request $request, Event $event)
     {
         $validatedData = $request->validate([
-            'speaker_id' => 'required|exists:speaker,id', // Verifică dacă speakerul există în baza de date
+            'partner_id' => 'required|exists:partner,id', // Verifică dacă partenerul există în baza de date
         ]);
 
-        // Găsește speakerul specificat
-        $speaker = Speaker::find($validatedData['speaker_id']);
+        // Găsește partenerul specificat
+        $partner = Partner::find($validatedData['partner_id']);
 
-        // Verifică dacă speakerul este asociat cu evenimentul
-        if ($event->speakers()->find($speaker->id)) {
-            // Elimină asocierea dintre eveniment și speaker
-            $event->speakers()->detach($speaker);
-            return redirect()->route('admin.dashboard')->with('success', 'Speakerul a fost șters cu succes.');
+        // Verifică dacă partenerul este asociat cu evenimentul
+        if ($event->partners()->find($partner->id)) {
+            // Elimină asocierea dintre eveniment și partener
+            $event->partners()->detach($partner);
+            return redirect()->route('admin.dashboard')->with('success', 'Partenerul a fost șters cu succes.');
         }
 
-        // În cazul în care speakerul nu este asociat cu evenimentul
-        return redirect()->route('admin.dashboard')->with('error', 'Speakerul nu este asociat cu acest eveniment.');
+        // În cazul în care partenerul nu este asociat cu evenimentul
+        return redirect()->route('admin.dashboard')->with('error', 'Partenerul nu este asociat cu acest eveniment.');
+    }
+
+    public function storePartner(Request $request, $eventId)
+    {
+        // Găsește evenimentul folosind ID-ul primit
+        $event = Event::findOrFail($eventId);
+
+        // Validare
+        $validatedData = $request->validate([
+            'partner_id' => 'required|exists:partner,id', // Asigură-te că partenerul există
+        ]);
+
+        // Adaugă partenerul la eveniment
+        $event->partners()->attach($validatedData['partner_id']);
+
+        // Redirecționează înapoi cu un mesaj de succes
+        return back()->with('success', 'Partenerul a fost adăugat cu succes la eveniment.');
+    }
+
+    public function destroyPartner($partnerId)
+    {
+        $partner = Partner::findOrFail($partnerId);
+        $partner->delete();
+
+        return back()->with('success', 'Partnerul a fost șters cu succes.');
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
@@ -68,6 +69,23 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
 
     Route::get('/speakers/create', [SpeakerController::class, 'create'])->name('speakers.create');
     Route::post('/speakers', [SpeakerController::class, 'store'])->name('speakers.store');
+
+    Route::get('/partners/create', [PartnerController::class, 'create'])->name('partners.create');
+
+    Route::get('/partners', [PartnerController::class, 'index'])->name('partners.index');
+    Route::get('admin/events/{event}/add-partner', [AdminController::class, 'addPartnerForm'])->name('admin.events.addPartnerForm');
+    Route::post('admin/events/{event}/add-partner', [AdminController::class, 'addPartner'])->name('admin.events.addPartner');
+    Route::post('admin/events/{event}/store-partners', [AdminController::class, 'storePartners'])->name('admin.events.storePartners');
+    Route::delete('admin/events/{event}/remove-partner/{partner}', [AdminController::class, 'removePartner'])->name('admin.events.removePartner');
+    Route::post('/partners', [PartnerController::class, 'store'])->name('partners.store');
+
+    // Adaugarea si stergerea partenerilor
+    Route::get('admin/events/{event}/add-partner', [AdminController::class, 'addPartnerForm'])->name('admin.events.addPartnerForm');
+    Route::post('admin/events/{event}/add-partner', [AdminController::class, 'addPartner'])->name('admin.events.addPartner');
+    Route::post('admin/events/{event}/store-partners', [AdminController::class, 'storePartners'])->name('admin.events.storePartners');
+    Route::delete('admin/events/{event}/remove-partner/{partner}', [AdminController::class, 'removePartner'])->name('admin.events.removePartner');
+    Route::delete('/partners/{partner}', [PartnerController::class, 'destroy'])->name('partners.destroy');
+    Route::delete('/events/remove-partner/{event}', [AdminController::class, 'removePartner'])->name('events.removePartner');
 });
 
 

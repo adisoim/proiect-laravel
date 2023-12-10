@@ -14,7 +14,6 @@ class SpeakerController extends Controller
     public function index()
     {
         $speakers = Speaker::all();
-        //return  view('speakers.index',compact('speakers'));
         return view('speakers.index', compact('speakers'));
     }
     public function show(Speaker $speaker)
