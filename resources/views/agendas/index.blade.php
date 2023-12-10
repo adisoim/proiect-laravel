@@ -1,4 +1,4 @@
-<x-event-layout>
+<x-layouts.agenda-layout>
     <div class="container mx-auto p-4">
         @foreach ($agendas as $agenda)
             <div class="bg-white shadow-md rounded-lg overflow-hidden mb-4">
@@ -13,4 +13,4 @@
             </div>
         @endforeach
     </div>
-</x-event-layout>
+</x-layouts.agenda-layout>

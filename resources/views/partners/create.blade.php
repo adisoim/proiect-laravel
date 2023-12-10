@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layouts.partner-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Creează Partener Nou') }}
@@ -33,4 +33,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-layouts.partner-layout>
