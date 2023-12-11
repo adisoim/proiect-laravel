@@ -21,14 +21,15 @@
                     </div>
                     <a href="{{ url('/events/' . $event->id) }}"  class=" text-indigo-600 hover:text-indigo-900 transition duration-300 ">Detalii eveniment</a>
 
-                    <form action="{{ route('cart.add', $event->id) }}" method="POST">
-                        @csrf
-{{--                        <input type="hidden" name="ticket_id" value="{{ $event->ticket->id ?? '' }}">--}}
-                        <input type="hidden" name="quantity" value="1"> <!-- sau un input pentru a selecta cantitatea -->
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                            Cumpără Bilet
-                        </button>
-                    </form>
+                    @if($event->ticket)
+                        <form action="{{ route('cart.add', ['ticketId' => $event->ticket->id]) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                                Cumpără Bilet
+                            </button>
+                        </form>
+                    @endif
                 </div>
 
             </div>

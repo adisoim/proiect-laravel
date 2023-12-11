@@ -12,13 +12,13 @@ class Ticket extends Model
     protected $fillable = ['price', 'event_id']; // Adaugă alte atribute necesare
 
     // Relație cu Event, presupunând că fiecare bilet este asociat unui eveniment
-    public function event()
+    public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
     // Relație cu CartItem
-    public function cartItems()
+    public function cartItems(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(CartItem::class);
     }

@@ -12,13 +12,13 @@ class CartItem extends Model
     protected $fillable = ['cart_id', 'ticket_id', 'quantity'];
 
     // Relație cu Cart
-    public function cart()
+    public function cart(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Cart::class);
     }
 
     // Relație cu Ticket
-    public function ticket()
+    public function ticket(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Ticket::class);
     }

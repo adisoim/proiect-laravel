@@ -37,7 +37,7 @@
                             Evenimente
                         </a>
                         <!-- Dropdown Content -->
-                        <div style="top:57px" class=" absolute hidden group-hover:block z-50 mt-2 w-48 bg-white shadow-lg rounded-md py-1">
+                        <div style="top:58px" class=" absolute hidden group-hover:block z-50 mt-2 w-48 bg-white shadow-lg rounded-md py-1">
                             <a href="{{ route('sponsors.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sponsori</a>
                             <a href="{{ route('speakers.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Speakeri</a>
                             <a href="{{ route('partners.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Parteneri</a>

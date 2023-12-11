@@ -49,11 +49,11 @@ class EventController extends Controller
 
         // Crează un bilet asociat cu evenimentul
         $ticket = new Ticket([
-            'price' => $validatedData['ticket_price'],
-            // Alte atribute necesare pentru bilet, dacă există
+            'event_id' => $event->id,
+            'price' => $request->input('ticket_price'),
+            // alte atribute necesare
         ]);
-
-        $event->ticket()->save($ticket);
+        $ticket->save();
 
         return redirect()->route('admin.dashboard')->with('success', 'Evenimentul și biletul au fost create cu succes.');
     }

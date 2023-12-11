@@ -18,8 +18,9 @@ class Cart extends Model
     }
 
     // Relație cu User, presupunând că fiecare coș aparține unui utilizator
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
 }

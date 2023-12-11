@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\CartItem;
 use App\Models\Ticket;
@@ -13,23 +12,32 @@ class CartController extends Controller
     // Afisează coșul de cumpărături
     public function index()
     {
-        $cartItems = CartItem::with('ticket')->get(); // Presupunând că CartItem are o relație cu Ticket
+        // Presupunând că fiecare utilizator are un singur coș asociat
+        $cart = Cart::where('user_id', auth()->id())->first();
+
+        // Dacă coșul există, obține articolele din coș
+        $cartItems = $cart ? $cart->items()->with('ticket')->get() : collect();
+
         return view('cart.index', compact('cartItems'));
     }
 
     // Adaugă un articol în coș
-    public function store(Request $request)
+    public function add(Request $request, $ticketId)
     {
-        $validatedData = $request->validate([
-            'ticket_id' => 'required|exists:tickets,id',
-            'quantity' => 'required|min:1'
-        ]);
+        $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
+        $ticket = Ticket::findOrFail($ticketId);
 
-        $cartItem = CartItem::create([
-            'ticket_id' => $validatedData['ticket_id'],
-            'quantity' => $validatedData['quantity'],
-            // 'cart_id' => $cartId // Adaugă ID-ul coșului aici, dacă este necesar
-        ]);
+        // Verifică dacă articolul există deja în coș
+        $cartItem = $cart->items()->where('ticket_id', $ticket->id)->first();
+
+        if ($cartItem) {
+            $cartItem->increment('quantity'); // Incrementează cantitatea dacă articolul există deja
+        } else {
+            $cart->items()->create([
+                'ticket_id' => $ticket->id,
+                'quantity' => 1 // Presupunem că adăugăm un singur bilet
+            ]);
+        }
 
         return redirect()->route('cart.index')->with('success', 'Articolul a fost adăugat în coș.');
     }
@@ -38,7 +46,7 @@ class CartController extends Controller
     public function update(Request $request, CartItem $cartItem)
     {
         $validatedData = $request->validate([
-            'quantity' => 'required|min:1'
+            'quantity' => 'required|integer|min:1'
         ]);
 
         $cartItem->update([
@@ -54,39 +62,4 @@ class CartController extends Controller
         $cartItem->delete();
         return redirect()->route('cart.index')->with('success', 'Articolul a fost eliminat din coș.');
     }
-
-    // Pagina de checkout
-    public function checkout()
-    {
-        // Logică pentru afișarea paginii de checkout
-        return view('cart.checkout');
-    }
-
-    public function add(Request $request, $eventId)
-    {
-        $event = Event::findOrFail($eventId);
-    
-        if ($event->ticket) {
-            $ticket = $event->ticket->first();
-    
-            if ($ticket) {
-                // Adaugă biletul în coș
-                $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
-                $cartItem = CartItem::firstOrCreate([
-                    'cart_id' => $cart->id,
-                    'ticket_id' => $ticket->id
-                ], [
-                    'quantity' => 0
-                ]);
-    
-                $cartItem->increment('quantity'); // Adaugă un bilet
-                $cartItem->save();
-    
-                return redirect()->route('cart.index')->with('success', 'Biletul a fost adăugat în coș!');
-            }
-        }
-    
-        return redirect()->route('cart.index')->with('error', 'Nu există bilete disponibile pentru acest eveniment.');
-    }
-
 }

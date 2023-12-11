@@ -21,6 +21,12 @@ class Event extends Model
         // 'partners',
     ];
 
+    public function ticket()
+    {
+    return $this->hasOne(Ticket::class);
+    }
+
+
     public function sponsors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Sponsor::class);
@@ -34,11 +40,6 @@ class Event extends Model
     public function partners():BelongsToMany
     {
         return $this->belongsToMany(Partner::class);
-    }
-
-    public function ticket()
-    {
-        return $this->hasMany(Ticket::class);
     }
 
 }

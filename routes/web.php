@@ -43,7 +43,6 @@ Route::resource('sponsors', SponsorController::class);
 Route::resource('sponsors', SponsorController::class)->middleware('auth', 'role:admin');
 Route::post('/sponsors', [SponsorController::class, 'store'])->name('sponsors.store');
 Route::post('/admin/events/{eventId}/sponsors', [AdminController::class, 'storeSponsors'])->name('admin.events.storeSponsors');
-Route::delete('/events/{event}/remove-sponsor', [AdminController::class, 'removeSponsor'])->name('events.removeSponsor');
 Route::delete('/sponsors/{sponsor}', [AdminController::class, 'destroySponsor'])->name('sponsors.destroy');
 
 // Rute pentru admin
@@ -92,10 +91,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
 
 // Rute pentru coșul de cumpărături
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/add/{eventId}', [CartController::class, 'add'])->name('cart.add');
-Route::patch('/cart/update/{item}', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{item}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::patch('/cart/update/{cartItem}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
 Route::get('/agendas', [AgendaController::class, 'index'])->name('agendas.index');
