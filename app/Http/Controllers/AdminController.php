@@ -43,8 +43,12 @@ class AdminController extends Controller
 
     public function edit(Event $event)
     {
-        // Returnează view-ul pentru editarea evenimentului
-        return view('admin.events.edit', compact('event'));
+        $event = Event::with(['sponsors', 'speakers', 'partners'])->findOrFail($event->id);
+        $sponsors = Sponsor::all();
+        $speakers = Speaker::all();
+        $partners = Partner::all();
+
+        return view('admin.events.edit', compact('event','sponsors', 'speakers', 'partners' ));
     }
 
     public function update(Request $request, Event $event)

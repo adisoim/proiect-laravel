@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
     // Ruta pentru adăugarea sponsori la un eveniment
     Route::get('admin/events/{event}/add-sponsor', [AdminController::class, 'addSponsors'])->name('events.addSponsors');
     Route::post('admin/events/{event}/add-sponsor', [AdminController::class, 'storeSponsors']);
-    Route::post('events/{event}/remove-sponsor', [AdminController::class, 'removeSponsor'])->name('events.removeSponsor');
+    Route::delete('admin/events/{event}/remove-sponsor', [AdminController::class, 'removeSponsor'])->name('events.removeSponsor');
 
     Route::get('admin/events/{event}/add-speaker', [AdminController::class, 'addSpeakerForm'])->name('admin.events.addSpeakerForm');
     Route::post('admin/events/{event}/add-speaker', [AdminController::class, 'addSpeaker'])->name('admin.events.addSpeakers');
@@ -95,6 +95,7 @@ Route::post('/cart/add/{ticketId}', [CartController::class, 'add'])->name('cart.
 Route::patch('/cart/update/{cartItem}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/checkout/confirm', [CartController::class, 'confirmCheckout'])->name('cart.checkout.confirm');
 
 Route::get('/agendas', [AgendaController::class, 'index'])->name('agendas.index');
 Route::get('/agendas/{agenda}', [AgendaController::class, 'show'])->name('agendas.show');

@@ -22,7 +22,7 @@
                     <a href="{{ url('/events/' . $event->id) }}"  class=" text-indigo-600 hover:text-indigo-900 transition duration-300 ">Detalii eveniment</a>
 
                     @if($event->ticket)
-                    <form action="{{ route('cart.add', ['eventId' => $event->ticket->id]) }}" method="POST">
+                    <form action="{{ route('cart.add', ['ticketId' => $event->ticket->id]) }}" method="POST">
                             @csrf
                             <input type="hidden" name="ticketId" value="{{ $event->ticket->id }}">
                             <input type="hidden" name="quantity" value="1">
