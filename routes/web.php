@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -95,12 +96,18 @@ Route::post('/cart/add/{ticketId}', [CartController::class, 'add'])->name('cart.
 Route::patch('/cart/update/{cartItem}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/checkout/confirm', [CartController::class, 'confirmCheckout'])->name('cart.checkout.confirm');
+Route::get('/cart/confirmation', [CartController::class, 'confirmCheckout'])->name('cart.confirmation');
+Route::post('/confirm-checkout', [CartController::class, 'confirmCheckout']);
 
 Route::get('/agendas', [AgendaController::class, 'index'])->name('agendas.index');
 Route::get('/agendas/{agenda}', [AgendaController::class, 'show'])->name('agendas.show');
 
 Route::get('/speakers', [SpeakerController::class, 'index'])->name('speakers.index');
 Route::get('/speakers/{speaker}', [SpeakerController::class, 'show'])->name('speakers.show');
+
+//Rute checkout
+Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
+Route::post('/confirm-checkout', [CartController::class, 'confirmCheckout'])->name('confirm-checkout');
+Route::get('/cart/confirmation', [CartController::class, 'confirmation']);
 
 require __DIR__.'/auth.php';

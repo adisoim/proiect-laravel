@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CartItem;
 use App\Models\Ticket;
 use App\Models\Cart;
+use Stripe\Stripe;
 
 class CartController extends Controller
 {
@@ -63,21 +64,42 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Articolul a fost eliminat din coș.');
     }
 
+
+
     public function checkout()
     {
-        // Presupunând că fiecare utilizator are un singur coș asociat
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
         $cart = Cart::where('user_id', auth()->id())->first();
-
-        // Dacă coșul există, obține articolele din coș
         $cartItems = $cart ? $cart->items()->with('ticket')->get() : collect();
-
-        // Calcul total pentru articolele din coș
         $total = $cartItems->sum(function ($item) {
             return $item->quantity * $item->ticket->price;
         });
 
-        // Returnează view-ul pentru pagina de checkout cu articolele și totalul
-        return view('cart.checkout', compact('cartItems', 'total'));
+        $paymentIntent = \Stripe\PaymentIntent::create([
+            'amount' => $total * 100,
+            'currency' => 'ron',
+        ]);
+
+        return view('cart.checkout', [
+            'cartItems' => $cartItems,
+            'total' => $total,
+            'clientSecret' => $paymentIntent->client_secret
+        ]);
+    }
+
+public function confirmCheckout(Request $request)
+{
+    // Dacă plata este confirmată
+    $cart = Cart::where('user_id', auth()->id())->first();
+    $cart->items()->delete(); // Golește articolele din coș
+
+    return response()->json(['status' => 'success'], 200);
+}
+
+    public function confirmation()
+    {
+        return view('cart.confirmation');
     }
 
 }

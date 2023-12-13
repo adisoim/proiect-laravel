@@ -9,7 +9,7 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['price', 'event_id']; // Adaugă alte atribute necesare
+    protected $fillable = ['price', 'event_id', 'name']; // Adaugă alte atribute necesare
 
     // Relație cu Event, presupunând că fiecare bilet este asociat unui eveniment
     public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
