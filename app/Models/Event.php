@@ -27,7 +27,7 @@ class Event extends Model
     }
 
 
-    public function sponsors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function sponsors(): BelongsToMany
     {
         return $this->belongsToMany(Sponsor::class);
     }
@@ -42,4 +42,13 @@ class Event extends Model
         return $this->belongsToMany(Partner::class);
     }
 
+    protected static function booted()
+    {
+        static::created(function ($event) {
+            $event->ticket()->create([
+                'name' => 'Bilet pentru ' . $event->title,
+                'price' => $event->ticket_price,
+            ]);
+        });
+    }
 }

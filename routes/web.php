@@ -91,7 +91,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
 
 // Rute pentru coșul de cumpărături
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{eventId}', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/add/{ticketId}', [CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/update/{cartItem}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');

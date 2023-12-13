@@ -62,4 +62,22 @@ class CartController extends Controller
         $cartItem->delete();
         return redirect()->route('cart.index')->with('success', 'Articolul a fost eliminat din coș.');
     }
+
+    public function checkout()
+    {
+        // Presupunând că fiecare utilizator are un singur coș asociat
+        $cart = Cart::where('user_id', auth()->id())->first();
+
+        // Dacă coșul există, obține articolele din coș
+        $cartItems = $cart ? $cart->items()->with('ticket')->get() : collect();
+
+        // Calcul total pentru articolele din coș
+        $total = $cartItems->sum(function ($item) {
+            return $item->quantity * $item->ticket->price;
+        });
+
+        // Returnează view-ul pentru pagina de checkout cu articolele și totalul
+        return view('cart.checkout', compact('cartItems', 'total'));
+    }
+
 }

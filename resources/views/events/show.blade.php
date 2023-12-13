@@ -7,9 +7,14 @@
                 <p>Locație: {{ $event->location }}</p>
                 <p>Preț Bilet: {{ $event->ticket_price }}</p>
                 <p>Data și Ora: {{ $event->date_time }}</p>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                    Cumpără Bilet
-                </button>
+                @if($event->ticket)
+                <form action="{{ route('cart.add', ['ticketId' => $event->ticket->id]) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        Adaugă în Coș
+                    </button>
+                </form>
+                @endif
             </div>
 
 </div>

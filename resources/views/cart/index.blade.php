@@ -6,16 +6,17 @@
             <p>Preț per Bilet: {{ $item->ticket->price }}</p>
             <p>Subtotal: {{ $item->quantity * $item->ticket->price }}</p>
             <!-- Buton pentru eliminarea articolului din coș -->
-            <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+            <form action="{{ route('cart.destroy', $item->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Șterge</button>
             </form>
+
         </div>
     @empty
         <p>Nu există articole în coș.</p>
     @endforelse
     @if($cartItems->isNotEmpty())
-        <a href="{{ route('checkout') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Finalizează Comanda</a>
+        <a href="{{ route('cart.checkout') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Finalizează Comanda</a>
     @endif
 </x-layouts.cart-layout>
