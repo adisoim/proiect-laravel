@@ -107,7 +107,7 @@ Route::get('/speakers/{speaker}', [SpeakerController::class, 'show'])->name('spe
 
 //Rute checkout
 Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
-Route::post('/confirm-checkout', [CartController::class, 'confirmCheckout'])->name('confirm-checkout');
-Route::get('/cart/confirmation', [CartController::class, 'confirmation']);
+Route::post('/confirm-checkout', [PaymentController::class, 'confirmCheckout'])->name('confirm-checkout');
+Route::get('/cart/confirmation', [CartController::class, 'confirmation'])->name('cart.confirmation');
 
 require __DIR__.'/auth.php';

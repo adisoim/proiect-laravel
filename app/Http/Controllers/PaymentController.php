@@ -34,5 +34,17 @@ class PaymentController extends Controller
     }
 
 
+    public function confirmCheckout(Request $request)
+    {
+        $billingDetails = $request->input('billingDetails');
+        // Procesați și stocați detaliile de facturare aici
+
+        // Codul existent pentru golirea coșului și confirmarea plății
+        $cart = Cart::where('user_id', auth()->id())->first();
+        $cart->items()->delete();
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
 
 }
