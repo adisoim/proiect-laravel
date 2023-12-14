@@ -4,7 +4,7 @@
             <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
                 <div class="md:flex">
                     <!-- Imagine Eveniment -->
-                    <img class="h-48 w-full md:w-1/3 object-cover" src="{{ Storage::url($event->image) }}" alt="Imagine Eveniment">
+                    <img class="h-96 w-full md:w-1/3 object-cover" src="{{ Storage::url($event->image) }}" alt="Imagine Eveniment">
 
                     <div class="p-4 md:w-2/3">
                         <h2 class="text-2xl font-bold mb-2">{{ $event->title }}</h2>
@@ -29,6 +29,30 @@
                                 @endforelse
                             </div>
                         </div>
+
+                        <div class="mb-4">
+                            <h3 class="text-gray-800 font-semibold">Speakeri:</h3>
+                            <div class="flex flex-wrap">
+                                @forelse ($event->speakers as $speaker)
+                                    <div class="mr-4 mb-2">{{ $speaker->name }}</div>
+                                @empty
+                                    <p>Nu există speakeri pentru acest eveniment.</p>
+                                @endforelse
+                            </div>
+                        </div>
+
+
+                        <div class="mb-4">
+                            <h3 class="text-gray-800 font-semibold">Parteneri:</h3>
+                            <div class="flex flex-wrap">
+                                @forelse ($event->partners as $partner)
+                                    <div class="mr-4 mb-2">{{ $partner->name }}</div>
+                                @empty
+                                    <p>Nu există parteneri pentru acest eveniment.</p>
+                                @endforelse
+                            </div>
+                        </div>
+
 
                         <div class="flex justify-between items-center">
                             <a href="{{ url('/events/' . $event->id) }}" class="text-indigo-600 hover:text-indigo-900 transition duration-300">Detalii eveniment</a>
