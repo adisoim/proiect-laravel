@@ -3,8 +3,8 @@
         @foreach ($events as $event)
             <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
                 <div class="md:flex">
-                    <!-- Imagine Eveniment -->
-                    <img class="h-96 w-full md:w-1/3 object-cover" src="{{ Storage::url($event->image) }}" alt="Imagine Eveniment">
+                    <!-- Imagine Eveniment-->
+                    <img class="h-96 w-full md:w-1/3 object-cover object-center" src="{{ Storage::url($event->image) }}" alt="Imagine Eveniment">
 
                     <div class="p-4 md:w-2/3">
                         <h2 class="text-2xl font-bold mb-2">{{ $event->title }}</h2>
@@ -54,7 +54,7 @@
                         </div>
 
 
-                        <div class="flex justify-between items-center">
+                        <div class="flex justify-between items-center mt-4">
                             <a href="{{ url('/events/' . $event->id) }}" class="text-indigo-600 hover:text-indigo-900 transition duration-300">Detalii eveniment</a>
                             @if($event->ticket)
                                 <form action="{{ route('cart.add', ['ticketId' => $event->ticket->id]) }}" method="POST">

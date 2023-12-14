@@ -38,7 +38,7 @@
                             <a href="{{ route('sponsors.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sponsori</a>
                             <a href="{{ route('speakers.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Speakeri</a>
                             <a href="{{ route('partners.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Parteneri</a>
-                            {{-- <a href="{{ route('artists.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Artiști</a> --}}
+                             <a href="{{ route('events.locations') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Locatii</a>
                         </div>
                            <a style="left:20px" href="{{ route('agendas.index') }}"
                            class=" ml-4 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">

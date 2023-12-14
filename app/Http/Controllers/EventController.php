@@ -102,4 +102,10 @@ class EventController extends Controller
         $event->sponsors()->attach($request->sponsor_id);
         return back()->with('success', 'Sponsor adăugat la eveniment.');
     }
+
+    public function locations()
+    {
+        $eventsByLocation = Event::all()->groupBy('location');
+        return view('locations', compact('eventsByLocation'));
+    }
 }

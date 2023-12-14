@@ -38,6 +38,9 @@ Route::middleware('auth')->group(function () {
 
 // Rute pentru evenimente
 Route::resource('events', EventController::class)->only(['index', 'show']);
+Route::get('/locations', [EventController::class, 'locations'])->name('events.locations');
+
+
 
 // Rute pentru sponsori
 Route::resource('sponsors', SponsorController::class);
