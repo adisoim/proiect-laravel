@@ -7,6 +7,7 @@ use App\Models\Partner;
 use App\Models\Speaker;
 use App\Models\Sponsor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -33,7 +34,14 @@ class AdminController extends Controller
             'location' => 'required',
             'ticket_price' => 'required|numeric',
             'date_time' => 'required|date',
+            'image' => 'required|image|max:2048',
         ]);
+
+        // Verifica dacă o imagine a fost încărcată
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            $validatedData['image'] = $path;
+        }
 
         Event::create($validatedData);
 

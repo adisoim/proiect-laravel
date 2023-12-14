@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -31,7 +32,7 @@ class EventController extends Controller
     // Crearea unui eveniment nou (pagina de formular)
     public function create()
     {
-        return view('events.create');
+        return view('admin.events.create');
     }
 
     // Stocarea unui eveniment nou în baza de date
@@ -41,17 +42,24 @@ class EventController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
             'location' => 'required',
-            'ticket_price' => 'required|numeric', // Asigură-te că ai un câmp pentru prețul biletului
+            'ticket_price' => 'required|numeric',
             'date_time' => 'required|date',
+            'image' => 'required|image|max:2048',
         ]);
 
+        // Verifica dacă o imagine a fost încărcată
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            $validatedData['image'] = $path;
+        }
+
+        // Crează evenimentul
         $event = Event::create($validatedData);
 
-        // Crează un bilet asociat cu evenimentul
+        // Crează biletul asociat cu evenimentul
         $ticket = new Ticket([
             'event_id' => $event->id,
-            'price' => $request->input('ticket_price'),
-            // alte atribute necesare
+            'price' => $validatedData['ticket_price'],
         ]);
         $ticket->save();
 
