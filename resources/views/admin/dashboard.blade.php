@@ -92,9 +92,8 @@
                         @forelse ($speakers as $speaker)
                             <div class="bg-white shadow-md rounded-lg p-4">
                                 <h4 class="text-lg font-medium">{{ $speaker->name }}</h4>
-                                {{-- Descriere sau alte detalii ale sponsorului --}}
                                 <div class="mt-2">
-                                    <form method="POST" action="{{ route('sponsors.destroy', $speaker->id) }}">
+                                    <form method="POST" action="{{ route('speakers.destroy', $speaker->id) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-white bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition duration-300">
@@ -108,7 +107,7 @@
                         @endforelse
 
                         <div class="flex justify-between items-center">
-                            <a href="{{ route('sponsors.create') }}" class="btn bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+                            <a href="{{ route('speakers.create') }}" class="btn bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
                                 Creează Speaker
                             </a>
                         </div>
@@ -131,7 +130,7 @@
                                 <h4 class="text-lg font-medium">{{ $partner->name }}</h4>
                                 {{-- Descriere sau alte detalii ale sponsorului --}}
                                 <div class="mt-2">
-                                    <form method="POST" action="{{ route('sponsors.destroy', $partner->id) }}">
+                                    <form method="POST" action="{{ route('partners.destroy', $partner->id) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-white bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition duration-300">
@@ -145,7 +144,7 @@
                         @endforelse
 
                         <div class="flex justify-between items-center">
-                            <a href="{{ route('sponsors.create') }}" class="btn bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+                            <a href="{{ route('partners.create') }}" class="btn bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
                                 Creează Partener
                             </a>
                         </div>
