@@ -155,6 +155,40 @@
         </div>
     </div>
 
+    <div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <h3 class="mt-4 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Management Contact</h3>
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {{-- Iterează prin contacte --}}
+                        @forelse ($contacts as $contact)
+                            <div class="bg-white shadow-md rounded-lg p-4">
+                                <h4 class="text-lg font-medium">{{ $contact->full_name }}</h4>
+                                {{-- Afișează alte detalii ale contactului --}}
+                                <p>{{ $contact->email }}</p>
+                                <p>{{ $contact->phone }}</p>
+                                <p>{{ $contact->message }}</p>
+                                <div class="mt-2">
+                                    <form method="POST" action="{{ route('contacts.destroy', $contact->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-white bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition duration-300">
+                                            Șterge
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-span-full text-gray-500 dark:text-gray-400">Nu există contacte de afișat.</div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
 

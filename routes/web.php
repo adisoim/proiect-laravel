@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgendaController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
@@ -112,5 +113,9 @@ Route::get('/speakers/{speaker}', [SpeakerController::class, 'show'])->name('spe
 Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
 Route::post('/confirm-checkout', [PaymentController::class, 'confirmCheckout'])->name('confirm-checkout');
 Route::get('/cart/confirmation', [CartController::class, 'confirmation'])->name('cart.confirmation');
+
+Route::get('/contacts', [ContactController::class, 'create'])->name('contacts.create');
+Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
 require __DIR__.'/auth.php';

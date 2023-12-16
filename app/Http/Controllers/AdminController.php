@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use App\Models\Event;
 use App\Models\Partner;
 use App\Models\Speaker;
@@ -18,7 +19,8 @@ class AdminController extends Controller
         $sponsors = Sponsor::all();
         $speakers = Speaker::all();
         $partners = Partner::all();
-        return view('admin.dashboard', compact('events', 'sponsors', 'speakers', 'partners'));
+        $contacts = Contact::all();
+        return view('admin.dashboard', compact('events', 'sponsors', 'speakers', 'partners','contacts'));
     }
 
     public function create()
@@ -56,7 +58,7 @@ class AdminController extends Controller
         $speakers = Speaker::all();
         $partners = Partner::all();
 
-        return view('admin.events.edit', compact('event','sponsors', 'speakers', 'partners' ));
+        return view('admin.events.edit', compact('event', 'sponsors', 'speakers', 'partners'));
     }
 
     public function update(Request $request, Event $event)
@@ -213,6 +215,7 @@ class AdminController extends Controller
 
         return back()->with('success', 'Partnerul a fost șters cu succes.');
     }
+
     public function addSpeakerForm(Event $event)
     {
         // Obține lista de speakeri care pot fi adăugați
