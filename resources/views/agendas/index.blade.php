@@ -1,16 +1,30 @@
-<x-layouts.agenda-layout>
-    <div class="container mx-auto p-4">
-        @foreach ($agendas as $agenda)
-            <div class="bg-white shadow-md rounded-lg overflow-hidden mb-4">
-                <div class="p-4">
-                    <h2 class="text-xl font-semibold">{{ $agenda->title }}</h2>
-                    <p class="text-gray-600">{{ $agenda->description }}</p>
-                    <div class="mt-2">
-                        <span class="text-gray-800 font-semibold">Locație:</span> {{ $agenda->location }}
+<x-app-layout>
+    <main class="mt-5">
+        @php
+            $now = \Carbon\Carbon::now();
+        @endphp
+
+        @foreach($events->sortBy('date_time')->groupBy(function($event) {
+            return \Carbon\Carbon::parse($event->date_time)->format('Y-m-d');
+        }) as $date => $eventsOnDate)
+            @php
+                $dateCarbon = \Carbon\Carbon::parse($date);
+            @endphp
+            @if ($dateCarbon->isToday() || $dateCarbon->isFuture())
+                <div class="container mx-auto p-4 mb-6">
+                    <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
+                        <h3 class="text-xl font-semibold p-4">{{ $dateCarbon->format('l, F j, Y') }}</h3>
+                        @foreach($eventsOnDate as $event)
+                            <div class="agenda-event p-4 border-t border-gray-200">
+                                <h4 class="text-2xl font-bold mb-2">{{ $event->title }}</h4>
+                                <p>{{ $event->description }}</p>
+                                <p>{{ $event->location }}</p>
+                                <p>{{ $event->date_time }}</p>
+                            </div>
+                        @endforeach
                     </div>
-                    <a href="{{ route('agendas.index', $agenda->id) }}" class="text-indigo-600 hover:text-indigo-900 transition duration-300 py-2 px-4 ">Detalii agenda</a>
                 </div>
-            </div>
+            @endif
         @endforeach
-    </div>
-</x-layouts.agenda-layout>
+    </main>
+</x-app-layout>

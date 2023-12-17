@@ -1,4 +1,3 @@
-
 <x-event-layout>
     <div class="container mx-auto p-4">
         @foreach ($events as $event)
@@ -24,8 +23,6 @@
                     <div class="text-lg font-semibold text-green-500 mb-4">
                         Preț Bilet: <strong>{{ $event->ticket_price }} RON</strong>
                     </div>
-
-
                             <div class="mb-4">
                                 <h3 class="text-gray-800 font-semibold">Sponsori:</h3>
                                 <div class="flex flex-wrap">
