@@ -86,12 +86,6 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Evenimentul a fost șters cu succes.');
     }
 
-    public function addSponsorForm(Event $event)
-    {
-        // Obține lista de sponsori care pot fi adăugați
-        $sponsors = Sponsor::all();
-        return view('admin.events.addSponsor', compact('event', 'sponsors'));
-    }
 
     public function addSponsor(Request $request, Event $event)
     {
@@ -105,6 +99,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.dashboard')->with('success', 'Sponsorul a fost adăugat cu succes.');
     }
+
 
     public function removeSponsor(Request $request, Event $event)
     {

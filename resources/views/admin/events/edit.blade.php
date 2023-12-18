@@ -54,9 +54,8 @@
 
                         </div>
 
-                        <div class="mt-4 space-y-4">
                             <div class="mt-4 flex justify-start">
-                                <form action="{{ route('events.addSponsors', $event) }}" method="POST">
+                                <form action="{{ route('events.addSponsor', $event) }}" method="POST">
                                     @csrf
                                     <select name="sponsor_id" style="width:150px"
                                             class="border border-gray-300 rounded-md shadow-sm p-2">
@@ -156,10 +155,10 @@
                         </button>
                     </form>
 
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </x-app-layout>

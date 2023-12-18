@@ -16,7 +16,6 @@ class SponsorController extends Controller
     {
         $sponsors = Sponsor::with('events')->get();
         return view('sponsors.index', compact('sponsors'));
-        return view('admin.sponsors.index', compact('sponsors'));
     }
 
 
@@ -62,7 +61,6 @@ class SponsorController extends Controller
             'name' => 'required|max:255',
             'description' => 'nullable',
             'website' => 'nullable'
-            // Alte câmpuri necesare pentru sponsor
         ]);
 
         $sponsor->update($validatedData);

@@ -1,12 +1,8 @@
 <x-layouts.location>
 
     <head>
-        <!-- Include Leaflet CSS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-
-        <!-- Include Leaflet JavaScript -->
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
         <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     </head>
 
@@ -37,7 +33,7 @@
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         maxZoom: 19,
-                        attribution: '© OpenStreetMap contributors'
+                        attribution: '© OpenStreetMap'
                     }).addTo(map);
 
                     L.marker(coordinates).addTo(map);

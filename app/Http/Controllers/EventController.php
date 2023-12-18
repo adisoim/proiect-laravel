@@ -9,14 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
-    // Constructor pentru a adăuga middleware-ul de autentificare
-    // Așa ne asigurăm că numai utilizatorii autentificați pot accesa aceste rute
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    // Afișarea listei de evenimente
     public function index()
     {
         $events = Event::with('sponsors')->get(); // Obținerea tuturor evenimentelor din baza de date
@@ -97,11 +89,6 @@ class EventController extends Controller
         return redirect()->route('events.index')->with('success', 'Evenimentul a fost șters cu succes.');
     }
 
-    public function addSponsor(Request $request, Event $event)
-    {
-        $event->sponsors()->attach($request->sponsor_id);
-        return back()->with('success', 'Sponsor adăugat la eveniment.');
-    }
 
     public function locations()
     {

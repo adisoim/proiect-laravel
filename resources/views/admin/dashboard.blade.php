@@ -55,7 +55,11 @@
                         @forelse ($sponsors as $sponsor)
                             <div class="bg-white shadow-md rounded-lg p-4">
                                 <h4 class="text-lg font-medium">{{ $sponsor->name }}</h4>
-                                {{-- Descriere sau alte detalii ale sponsorului --}}
+                                <form method="GET" action="{{ route('sponsors.edit', $sponsor->id) }}">
+                                    <button type="submit" class="text-white bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition duration-300">
+                                        Editează
+                                    </button>
+                                </form>
                                 <div class="mt-2">
                                     <form method="POST" action="{{ route('sponsors.destroy', $sponsor->id) }}">
                                         @csrf
@@ -92,6 +96,11 @@
                         @forelse ($speakers as $speaker)
                             <div class="bg-white shadow-md rounded-lg p-4">
                                 <h4 class="text-lg font-medium">{{ $speaker->name }}</h4>
+                                <form method="GET" action="{{ route('speakers.edit', $speaker->id) }}">
+                                    <button type="submit" class="text-white bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition duration-300">
+                                        Editează
+                                    </button>
+                                </form>
                                 <div class="mt-2">
                                     <form method="POST" action="{{ route('speakers.destroy', $speaker->id) }}">
                                         @csrf
@@ -124,11 +133,14 @@
                 <div class="p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                     <h3 class="mt-4 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Management Parteneri</h3>
                     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {{-- Iterează prin sponsori --}}
                         @forelse ($partners as $partner)
                             <div class="bg-white shadow-md rounded-lg p-4">
                                 <h4 class="text-lg font-medium">{{ $partner->name }}</h4>
-                                {{-- Descriere sau alte detalii ale sponsorului --}}
+                                <form method="GET" action="{{ route('partners.edit', $partner->id) }}">
+                                    <button type="submit" class="text-white bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition duration-300">
+                                        Editează
+                                    </button>
+                                </form>
                                 <div class="mt-2">
                                     <form method="POST" action="{{ route('partners.destroy', $partner->id) }}">
                                         @csrf
